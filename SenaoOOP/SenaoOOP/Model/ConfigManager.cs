@@ -8,17 +8,25 @@ namespace SenaoOOP.Model
     /// <summary>
     /// 設定管理器
     /// </summary>
-    public class ConfigManager
+    public class ConfigManager : JsonManager
     {
         /// <summary>
-        /// 設定列表
+        /// JSON 路徑
         /// </summary>
-        public List<Config> Configs { get; set; }
+        private string Path = @"../../JSON/config.json";
 
         /// <summary>
         /// 計數器
         /// </summary>
-        public int Count { get; set; }
+        public int Count
+        {
+            get { return this.Configs.Count(); }
+        }
+
+        /// <summary>
+        /// 設定列表
+        /// </summary>
+        private List<Config> Configs { get; set; } = new List<Config>();
 
         /// <summary>
         /// indexers
@@ -34,16 +42,23 @@ namespace SenaoOOP.Model
         /// <summary>
         /// 讀取檔案
         /// </summary>
-        public void ProcessConfigs()
+        public override void ProcessJsonConfig()
         {
-            // 讀取 Json 字串
-            string fileString = File.ReadAllText(@"../../JSON/config.json");
-
-            // 寫入到物件中
-            this.Configs = JsonConvert.DeserializeObject<ConfigManager>(fileString).Configs;
-
-            // 寫入計數器
-            this.Count = this.Configs.Count();
+            dynamic configObject = this.GetJsonObject(this.Path);
+            foreach (var item in configObject["configs"])
+            {
+                this.Configs.Add(
+                                  new Config(
+                                                (string)item["ext"],
+                                                (string)item["location"],
+                                                (bool)item["subDirectory"],
+                                                (string)item["unit"],
+                                                (bool)item["remove"],
+                                                (string)item["handler"],
+                                                (string)item["destination"],
+                                                (string)item["dir"],
+                                                (string)item["connectionString"]));
+            }
         }
     }
 }

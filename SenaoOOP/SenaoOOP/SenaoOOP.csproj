@@ -51,6 +51,8 @@
     <Compile Include="Model\ScheduleManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\JsonManager.cs" />
+    <Compile Include="Service\MyBackupService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

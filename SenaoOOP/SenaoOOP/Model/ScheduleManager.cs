@@ -8,17 +8,25 @@ namespace SenaoOOP.Model
     /// <summary>
     /// 排程管理器
     /// </summary>
-    public class ScheduleManager
+    public class ScheduleManager : JsonManager
     {
         /// <summary>
-        /// 排程列表
+        /// JSON 路徑
         /// </summary>
-        public List<Schedule> Schedules { get; set; }
+        private string Path = @"../../JSON/schedule.json";
 
         /// <summary>
         /// 計數器
         /// </summary>
-        public int Count { get; set; }
+        public int Count
+        {
+            get { return this.Schedules.Count(); }
+        }
+
+        /// <summary>
+        /// 排程列表
+        /// </summary>
+        private List<Schedule> Schedules { get; set; } = new List<Schedule>();
 
         /// <summary>
         /// indexers
@@ -34,16 +42,18 @@ namespace SenaoOOP.Model
         /// <summary>
         /// 讀取檔案
         /// </summary>
-        public void ProcessSchedules()
+        public override void ProcessJsonConfig()
         {
-            // 讀取 Json 字串
-            string fileString = File.ReadAllText(@"../../JSON/schedule.json");
+            dynamic scheduleObject = this.GetJsonObject(this.Path);
 
-            // 寫入到物件中
-            this.Schedules = JsonConvert.DeserializeObject<ScheduleManager>(fileString).Schedules;
-
-            // 寫入計數器
-            this.Count = this.Schedules.Count();
+            foreach (var item in scheduleObject["schedules"])
+            {
+                this.Schedules.Add(
+                                    new Schedule(
+                                                    (string)item["ext"],
+                                                    (string)item["time"],
+                                                    (string)item["interval"]));
+            }
         }
     }
 }
