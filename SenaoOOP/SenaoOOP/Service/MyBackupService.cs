@@ -1,4 +1,5 @@
-﻿using SenaoOOP.Model;
+﻿using SenaoOOP.Interface;
+using SenaoOOP.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace SenaoOOP.Service
     /// <summary>
     /// 備份服務
     /// </summary>
-    internal class MyBackupService
+    public class MyBackupService
     {
         /// <summary>
         /// JSON 管理器列表
@@ -29,7 +30,12 @@ namespace SenaoOOP.Service
         /// </summary>
         public void DoBackup()
         {
-            Console.WriteLine("Do Backup");
+            List<Candidate> candidates = this.FindFiles();
+
+            foreach (Candidate candidate in candidates)
+            {
+                this.BroadcastToHandlers(candidate);
+            }
         }
 
         /// <summary>
@@ -41,6 +47,41 @@ namespace SenaoOOP.Service
             {
                 this.Managers[i].ProcessJsonConfig();
             }
+        }
+
+        private void BroadcastToHandlers(Candidate candidate)
+        {
+            List<Handler> handlers = this.FindHandlers(candidate);
+            byte[] target = null;
+
+            foreach (Handler handler in handlers)
+            {
+                target = handler.Perform(candidate, target);
+            }
+        }
+
+        private List<Candidate> FindFiles()
+        {
+            // Homework 4
+            List<Candidate> candidates = new List<Candidate>();
+            return candidates;
+        }
+
+        private List<Handler> FindHandlers(Candidate candidate)
+        {
+            List<Handler> handlers = new List<Handler>();
+            handlers.Add(HandlerFactory.Create("file"));
+
+            Config config = candidate.Config;
+
+            foreach (string handler in config.Handlers)
+            {
+                handlers.Add(HandlerFactory.Create(handler));
+            }
+
+            handlers.Add(HandlerFactory.Create(config.Destination));
+
+            return handlers;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace SenaoOOP.Model
                                                 (bool)item["subDirectory"],
                                                 (string)item["unit"],
                                                 (bool)item["remove"],
-                                                (string)item["handler"],
+                                                (List<string>)item["handlers"],
                                                 (string)item["destination"],
                                                 (string)item["dir"],
                                                 (string)item["connectionString"]));

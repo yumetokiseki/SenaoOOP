@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SenaoOOP.Model
 {
@@ -15,7 +16,7 @@ namespace SenaoOOP.Model
         /// <param name="subDirectory">是否處理子目錄</param>
         /// <param name="unit">備份單位</param>
         /// <param name="remove">處理完是否刪除檔案</param>
-        /// <param name="handler">處理方式</param>
+        /// <param name="handlers">處理方式</param>
         /// <param name="destination">處理後儲存方式</param>
         /// <param name="dir">處理後的目錄</param>
         /// <param name="connectionString">資料庫連接字串</param>
@@ -25,7 +26,7 @@ namespace SenaoOOP.Model
                       bool subDirectory,
                       string unit,
                       bool remove,
-                      string handler,
+                      List<string> handlers,
                       string destination,
                       string dir,
                       string connectionString)
@@ -35,7 +36,7 @@ namespace SenaoOOP.Model
             this.SubDirectory = subDirectory;
             this.Unit = unit;
             this.Remove = remove;
-            this.Handler = handler;
+            this.Handlers = handlers;
             this.Destination = destination;
             this.Dir = dir;
             this.ConnectionString = connectionString;
@@ -68,8 +69,8 @@ namespace SenaoOOP.Model
         /// <summary>
         /// 處理方式
         /// </summary>
-        [JsonProperty("handler")]
-        public string Handler { get; private set; }
+        [JsonProperty("handlers")]
+        public List<string> Handlers { get; private set; }
 
         /// <summary>
         /// 備份檔案的目錄

@@ -45,6 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Candidate.cs" />
+    <Compile Include="HandlerFactory.cs" />
+    <Compile Include="Handler\AbstractHandler.cs" />
+    <Compile Include="Handler\DirectoryHandler.cs" />
+    <Compile Include="Handler\EncodeHandler.cs" />
+    <Compile Include="Handler\FileHandler.cs" />
+    <Compile Include="Handler\ZipHandler.cs" />
+    <Compile Include="Interface\Handler.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\ConfigManager.cs" />
     <Compile Include="Model\Schedule.cs" />
@@ -57,6 +65,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="JSON\config.json" />
+    <None Include="JSON\handler_mapping.json" />
     <None Include="JSON\schedule.json" />
     <None Include="packages.config" />
   </ItemGroup>
